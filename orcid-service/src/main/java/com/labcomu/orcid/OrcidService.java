@@ -21,7 +21,7 @@ public class OrcidService {
         return StringUtils.isNotEmpty(gateway.getStatus());
     }
 
-    @Throw(exception=RuntimeException.class, threshold=0.5)
+    @Throw(exception=RuntimeException.class, threshold=0.1)
     public Researcher getResearcher(@NotNull final String orcid) {
         return researcherMapper.map(gateway.getOrcid(orcid));
     }
