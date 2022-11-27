@@ -33,3 +33,6 @@ build/
 .vscode/
 
 education.zip
+
+### scripts ###
+*.sh
