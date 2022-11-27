@@ -16,6 +16,7 @@ public class CircuitBreakerConfiguration {
         CircuitBreakerConfig config = CircuitBreakerConfig.custom()
                 .slidingWindowSize(4)
                 .minimumNumberOfCalls(1)
+                .automaticTransitionFromOpenToHalfOpenEnabled(true)
                 .waitDurationInOpenState(Duration.ofSeconds(3))
                 .build();
 

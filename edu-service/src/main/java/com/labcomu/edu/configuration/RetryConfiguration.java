@@ -15,7 +15,7 @@ public class RetryConfiguration {
     Retry reportingApiRetry(RetryRegistry registry) {
         RetryConfig config = RetryConfig.custom()
                 .maxAttempts(2)
-                .waitDuration(Duration.ofSeconds(2))
+                .waitDuration(Duration.ofMillis(500))
                 .build();
 
         return registry.retry("orcid_retry", config);
