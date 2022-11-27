@@ -19,6 +19,9 @@ target/
 *.iml
 *.ipr
 
+## Scripts ##
+*.sh
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -33,6 +36,3 @@ build/
 .vscode/
 
 education.zip
-
-### scripts ###
-*.sh
