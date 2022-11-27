@@ -1,5 +1,6 @@
 package com.labcomu.org;
 
+import com.labcomu.faultinjection.annotation.Delay;
 import com.labcomu.org.resource.ResourceOrganization;
 import com.labcomu.org.resource.ResourceResearcher;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ public class OrgController {
   private static final int CONFLICT = 409;
   private final OrgService service;
 
+  @Delay(value=5, threshold=0.5)
   @GetMapping("organization/{url}")
   public ResponseEntity<ResourceOrganization> getOrganization(@NotNull @PathVariable String url) {
     return ResponseEntity.of(service.getOrganization(url));

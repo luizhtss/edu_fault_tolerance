@@ -42,6 +42,7 @@ public class OrgGateway {
     }
 
     @CircuitBreaker(name="org_circuit", fallbackMethod = "fallback")
+    @RateLimiter(name = "org_timeout", fallbackMethod = "fallback_timeout")
     public Organization getOrganization(@NotNull final String url) {
         return webClientBuilder.build()
                 .get()
@@ -57,7 +58,9 @@ public class OrgGateway {
         return getEmpityOrg();
     }
 
-        return organization;
+    private Organization fallback_timeout(Exception exception){
+        logger.error("Tempo esgotado para org-service. Requisição durou mais de três segundos.");
+        return getEmpityOrg();
     }
 
 }
