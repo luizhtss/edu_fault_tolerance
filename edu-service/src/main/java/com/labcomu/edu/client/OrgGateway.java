@@ -46,7 +46,7 @@ public class OrgGateway {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(Organization.class)
-                .timeout(Duration.ofSeconds(4))
+                .timeout(Duration.ofSeconds(3))
                 .block();
     }
 
