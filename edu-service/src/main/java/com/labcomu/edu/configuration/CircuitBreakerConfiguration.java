@@ -14,10 +14,9 @@ public class CircuitBreakerConfiguration {
     @Bean
     CircuitBreaker reportingApiCircuitBreaker(CircuitBreakerRegistry registry) {
         CircuitBreakerConfig config = CircuitBreakerConfig.custom()
-                .slidingWindowSize(4)
+                .slidingWindowSize(1)
                 .minimumNumberOfCalls(1)
-                .automaticTransitionFromOpenToHalfOpenEnabled(true)
-                .waitDurationInOpenState(Duration.ofSeconds(3))
+                .waitDurationInOpenState(Duration.ofSeconds(10))
                 .build();
 
         return registry.circuitBreaker("org_circuit", config);

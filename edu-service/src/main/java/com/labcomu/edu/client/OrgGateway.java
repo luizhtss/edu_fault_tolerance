@@ -3,19 +3,16 @@ package com.labcomu.edu.client;
 import com.labcomu.edu.configuration.EduProperties;
 import com.labcomu.edu.resource.Organization;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import javax.validation.constraints.NotNull;
+import java.time.Duration;
 import java.util.ArrayList;
 
 @Component
@@ -42,7 +39,6 @@ public class OrgGateway {
     }
 
     @CircuitBreaker(name="org_circuit", fallbackMethod = "fallback")
-    @RateLimiter(name = "org_timeout", fallbackMethod = "fallback_timeout")
     public Organization getOrganization(@NotNull final String url) {
         return webClientBuilder.build()
                 .get()
@@ -50,11 +46,16 @@ public class OrgGateway {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(Organization.class)
+                .timeout(Duration.ofSeconds(4))
                 .block();
     }
 
     private Organization fallback(Exception exception){
-        logger.error("org-service não disponível. ["+ exception.getMessage()+"]");
+        if (exception instanceof WebClientResponseException.ServiceUnavailable){
+            logger.error("org-service não disponível. ["+ exception.toString()+"]");
+        }else {
+            logger.error("tempo esgotado para edu-service. ["+ exception.toString()+"]");
+        }
         return getEmpityOrg();
     }
 
