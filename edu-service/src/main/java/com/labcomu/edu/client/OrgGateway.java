@@ -58,10 +58,4 @@ public class OrgGateway {
         }
         return getEmpityOrg();
     }
-
-    private Organization fallback_timeout(Exception exception){
-        logger.error("Tempo esgotado para org-service. Requisição durou mais de três segundos.");
-        return getEmpityOrg();
-    }
-
 }

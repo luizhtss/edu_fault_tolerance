@@ -14,7 +14,7 @@ public class CircuitBreakerConfiguration {
     @Bean
     CircuitBreaker reportingApiCircuitBreaker(CircuitBreakerRegistry registry) {
         CircuitBreakerConfig config = CircuitBreakerConfig.custom()
-                .slidingWindowSize(1)
+                .slidingWindowSize(4)
                 .minimumNumberOfCalls(1)
                 .waitDurationInOpenState(Duration.ofSeconds(10))
                 .build();

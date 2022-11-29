@@ -50,9 +50,9 @@ services:
     ports:
       # - "8182-8189:8181" - error (address already in use)
       - "8181"
-    hostname: orcid-service
     deploy:
       replicas: 4
+    hostname: orcid-service
     networks:
       education:
         aliases:
